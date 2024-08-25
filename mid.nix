@@ -70,12 +70,13 @@
       inherit (pkgs)
         # firefox
         aseprite
+	arduino
         signal-desktop
         # obsidian
         vscode
         inkscape
         spotify
-        vesktop;
+        vesktop;	
     };
   };
 }
