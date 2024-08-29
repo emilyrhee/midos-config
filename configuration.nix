@@ -14,6 +14,12 @@
 
   programs.steam.enable = true;
 
+  services.httpd.enable = true;
+  services.httpd.adminAddr = "emilyrhee99@gmail.com";
+  services.httpd.enablePHP = true;
+  services.mysql.enable = true;
+  services.mysql.package = pkgs.mariadb;
+
   time.timeZone = "America/New_York";
 
   # Select internationalisation properties.
