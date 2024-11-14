@@ -8,17 +8,25 @@
       repo = "nixpkgs";
       ref = "nixos-24.05";
     };
+
     nixpkgs-unstable = {
       type = "github";
       owner = "NixOS";
       repo = "nixpkgs";
       ref = "nixos-unstable";
     };
+
+    nixos-hardware = {
+      type = "github";
+      owner = "NixOS";
+      repo = "nixos-hardware";
+      ref = "master";
+    };
+
     mid = {
-      type = "gitlab";
-      owner = "mid_os";
-      repo = "mid-layer";
-      ref = "v0.0.2";
+      type = "git";
+      url = "https://codeberg.org/MidOS/mid-layer";
+      ref = "refs/tags/v0.1.2";
     };
   };
 
@@ -26,6 +34,7 @@
     self,
     nixpkgs,
     nixpkgs-unstable,
+    nixos-hardware,
     mid,
     ...
   }: {
@@ -35,6 +44,7 @@
       modules = [
         ./configuration.nix
         ./mid.nix
+        mid.nixosModules.default
       ];
     };
   };

@@ -1,41 +1,24 @@
-{ config, pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 { 
   imports = [
     ./hardware-configuration.nix
+    inputs.nixos-hardware.nixosModules.framework-13-7040-amd
   ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  networking.networkmanager.enable = true;
-
   programs.steam.enable = true;
 
   services.httpd.enable = true;
   services.httpd.adminAddr = "emilyrhee99@gmail.com";
   services.httpd.enablePHP = true;
+  services.httpd.virtualHosts.localhost.documentRoot = "/www";
+
   services.mysql.enable = true;
   services.mysql.package = pkgs.mariadb;
-
-  time.timeZone = "America/New_York";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
-  };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -52,21 +35,6 @@
     };
   };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
-
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -75,17 +43,6 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
-
-  environment.systemPackages = builtins.attrValues {
-    inherit (pkgs)
-      git
-      gcc;
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
 
   security.wrappers.write = {
     group = "tty";
@@ -118,5 +75,4 @@
   # system. Before changing this value read the documentation for this option (e.g. man configuration.nix or on 
   # https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }
